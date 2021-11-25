@@ -13,7 +13,7 @@ We will start with a light introduction, going through the objectives over the n
 
 📫  **Content and Links**
 
-- [Presentation](www.google.com)
+- [Presentation](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week1/OpenShift4%20%20-%20Developers%20Edition.pdf)
 
 📋  **Tasks**
 
