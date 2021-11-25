@@ -11,16 +11,16 @@ The main hub for us is the **Miro board**, a link to the board was distributed t
 
 We will start with a light introduction, going through the objectives over the next few weeks and introducing OpenShift. 
 
-📫 **Content and Links**
+📫  **Content and Links**
 
 - [Presentation](www.google.com)
 
-📋 **Tasks**
+📋  **Tasks**
 
 - Confirm your _Miro board access_
 - Get yourself a _[developer sandobox](https://developers.redhat.com/developer-sandbox/get-started)_
 
-🥅 ** Goals**
+🥅  **Goals**
 
 - Being able to describe what OpenShift is
 - Not being afraid of what's ahead
