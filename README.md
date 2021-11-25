@@ -1,5 +1,6 @@
 # Openshift Developer Enablement
 👋👋👋
+
 This is repo contains content for the developer onboarding workshop. Over the coming weeks, we will have multiple sessions together that will include **Workshops**, **self-guided training** and **online classrooms**. 
 
 👀🚨
