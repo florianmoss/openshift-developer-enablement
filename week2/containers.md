@@ -87,3 +87,139 @@ In contrast, many applications are not well suited for a containerized environme
     - A company is deploying applications on a physical host and would like to improve its performance by using containers.
     - Developers at a company need a disposable environment that mimics the production environment so that they can quickly test the code they develop.
     - A financial company is implementing a CPU-intensive risk analysis tool on their own containers to minimize the number of processors needed.
+
+3. A company is migrating their PHP and Python applications running on the same host to a new architecture. Due to internal policies, both are using a set of custom made shared libraries from the OS, but the latest update applied to them as a result of a Python development team request broke the PHP application. Which two architectures would provide the best support for both applications? (Choose two.)
+
+    - Deploy each application to different VMs and apply the custom made shared libraries individually to each VM host.
+    - Deploy each application to different containers and apply the custom made shared libraries individually to each container.
+    - Deploy each application to different VMs and apply the custom made shared libraries to all VM hosts.
+    - Deploy each application to different containers and apply the custom made shared libraries to all containers.
+
+4. Which three kinds of applications can be packaged as containers for immediate consumption? (Choose three.)
+    - A virtual machine hypervisor
+    - A blog software, such as WordPress
+    - A database
+    - A local file system recovery tool 
+    - A web server
+
+*********
+PLEASE FIND THE SOLUTIONS AT THE BOTTOM OF THE PAGE
+*********
+
+## Overview of Container Architecture
+This section is gonna cover the architecture of Linux container and the podman utility to manage containers.
+
+#### Introducing Container History
+
+Containers have quickly gained popularity in recent years. However, the technology behind containers has been around for a relatively long time. In 2001, Linux introduced a project named VServer. VServer was the first attempt at running complete sets of processes inside a single server with a high degree of isolation.
+
+From VServer, the idea of isolated processes further evolved and became formalized around the following features of the Linux kernel:
+
+**Namespaces**
+
+The kernel can isolate specific system resources, usually visible to all processes, by placing the resources within a namespace. Inside a namespace, only processes that are members of that namespace can see those resources. Namespaces can include resources like network interfaces, the process ID list, mount points, IPC resources, and the system's host name information.
+
+**Control groups (cgroups)**
+
+Control groups partition sets of processes and their children into groups to manage and limit the resources they consume. Control groups place restrictions on the amount of system resources processes might use. Those restrictions keep one process from using too many resources on the host.
+
+**Seccomp**
+
+Developed in 2005 and introduced to containers circa 2014, Seccomp limits how processes could use system calls. Seccomp defines a security profile for processes, whitelisting the system calls, parameters and file descriptors they are allowed to use.
+
+**SELinux**
+
+SELinux (Security-Enhanced Linux) is a mandatory access control system for processes. Linux kernel uses SELinux to protect processes from each other and to protect the host system from its running processes. Processes run as a confined SELinux type that has limited access to host system resources.
+
+All of these innovations and features focus around a basic concept: enabling processes to run isolated while still accessing system resources. This concept is the foundation of container technology and the basis for all container implementations. Nowadays, containers are processes in Linux kernel making use of those security features to create an isolated environment. This environment forbids isolated processes from misusing system or other container resources.
+
+A common use case of containers is having several replicas of the same service (for example, a database server) in the same host. Each replica has isolated resources (file system, ports, memory), so there is no need for the service to handle resource sharing. Isolation guarantees that a malfunctioning or harmful service does not impact other services or containers in the same host, nor in the underlying system.
+
+## Describing Linux Container Architecture
+From the Linux kernel perspective, a container is a process with restrictions. However, instead
+of running a single binary file, a container runs an image. An image is a file-system bundle that contains all dependencies required to execute a process: files in the file system, installed packages, available resources, running processes, and kernel modules.
+
+Like executable files are the foundation for running processes, images are the foundation for running containers. Running containers use an immutable view of the image, allowing multiple containers to reuse the same image simultaneously. As images are files, they can be managed by versioning systems, improving automation on container and image provisioning.
+
+Container images need to be locally available for the container runtime to execute them, but the images are usually stored and maintained in an image repository. An image repository is just a service - public or private - where images can be stored, searched and retrieved. Other features provided by image repositories are remote access, image metadata, authorization or image version control.
+
+There are many different image repositories available, each one offering different features:
+
+• Red Hat Container Catalog [https://registry.redhat.io]
+
+• Docker Hub [https://hub.docker.com]
+
+• Red Hat Quay [https://quay.io/]
+
+• Google Container Registry [https://cloud.google.com/container-registry/]
+
+• Amazon Elastic Container Registry [https://aws.amazon.com/ecr/]
+
+## Managing Containers with Podman
+Containers, images, and image registries need to be able to interact with each other. For example, you need to be able to build images and put them into image registries. You also need to be able to retrieve an image from the image registry and build a container from that image.
+
+Podman is an open source tool for managing containers and container images and interacting with image registries. It offers the following key features:
+
+• It uses image format specified by the Open Container Initiative [https:// www.opencontainers.org] (OCI). Those specifications define an standard, community-driven, non-proprietary image format.
+
+• Podman stores local images in local file-system. Doing so avoids unnecessary client/server architecture or having daemons running on local machine.
+
+• Podman follows the same command patterns as the Docker CLI, so there is no need to learn a new toolset.
+
+• Podman is compatible with Kubernetes. Kubernetes can use Podman to manage its containers.
+
+Currently, Podman is only available on Linux systems. To install Podman in Red Hat Enterprise Linux, Fedora or similar RPM-based systems, run ```sudo yum install podman``` or ```sudo dnf install podman```.
+
+*********
+*********
+
+## Quiz: Overview of Container Architecture
+5. Which three of the following Linux features are used for running containers? (Choose three.)
+    - Namespaces
+    - Integrity Management
+    - Security-Enhanced Linux 
+    - Control Groups
+
+*********
+
+6. Which of the following best describes a container image?
+    - A virtual machine image from which a container will be created. 
+    - A container blueprint from which a container will be created.
+    - A runtime environment where an application will run.
+    - The container's index file used by a registry.
+
+*********
+
+7. Which three of the following components are common across container architecture implementations? (Choose three.)
+    - Container runtime
+    - Container permissions
+    - Container images 
+    - Container registries
+
+*********
+
+8. What is a container in relation to the Linux kernel?
+    - A virtual machine.
+    - An isolated process with regulated resource access. 
+    - A set of file-system layers exposed by UnionFS.
+    - An external service providing container images.
+
+*********
+
+## Solutions:
+
+Question 1: a, b
+
+Question 2: a, c
+
+Question 3: a, b
+
+Question 4: b, c, e
+
+Question 5: a, c, d
+
+Question 6: b
+
+Question 7: a, c, d
+
+Question 8: b

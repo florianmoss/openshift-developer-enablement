@@ -29,6 +29,8 @@ We will start with a light introduction, going through the objectives over the n
 
 The goal for this week is to understand what a container is, how it differs from traditional application, and how a container works.
 
+You can find the full script for this session [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/containers.md)
+
 ## Week 2 - Self Guided Exercises
 
 // to be added
