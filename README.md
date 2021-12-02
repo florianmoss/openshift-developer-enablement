@@ -27,7 +27,7 @@ We will start with a light introduction, going through the objectives over the n
 
 ## Week 2 - Online Classroom - Introduction to Docker/Podman/Containers
 
-// to be added
+The goal for this week is to understand what a container is, how it differs from traditional application, and how a container works.
 
 ## Week 2 - Self Guided Exercises
 
