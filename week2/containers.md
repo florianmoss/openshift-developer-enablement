@@ -81,21 +81,22 @@ In contrast, many applications are not well suited for a containerized environme
 
 *********
 
-2. Which two of the following usecases are best suited for containers? (Choose two.)
+2. **Which two of the following usecases are best suited for containers? (Choose two.)**
 
     - A software provider needs to distribute software that can be reused by other companies in a fast and error-free way.
     - A company is deploying applications on a physical host and would like to improve its performance by using containers.
     - Developers at a company need a disposable environment that mimics the production environment so that they can quickly test the code they develop.
     - A financial company is implementing a CPU-intensive risk analysis tool on their own containers to minimize the number of processors needed.
 
-3. A company is migrating their PHP and Python applications running on the same host to a new architecture. Due to internal policies, both are using a set of custom made shared libraries from the OS, but the latest update applied to them as a result of a Python development team request broke the PHP application. Which two architectures would provide the best support for both applications? (Choose two.)
+3. **A company is migrating their PHP and Python applications running on the same host to a new architecture. Due to internal policies, both are using a set of custom made shared libraries from the OS, but the latest update applied to them as a result of a Python development team request broke the PHP application. Which two architectures would provide the best support for both applications? (Choose two.)**
 
     - Deploy each application to different VMs and apply the custom made shared libraries individually to each VM host.
     - Deploy each application to different containers and apply the custom made shared libraries individually to each container.
     - Deploy each application to different VMs and apply the custom made shared libraries to all VM hosts.
     - Deploy each application to different containers and apply the custom made shared libraries to all containers.
 
-4. Which three kinds of applications can be packaged as containers for immediate consumption? (Choose three.)
+4. **Which three kinds of applications can be packaged as containers for immediate consumption? (Choose three.)**
+
     - A virtual machine hypervisor
     - A blog software, such as WordPress
     - A database
@@ -174,7 +175,8 @@ Currently, Podman is only available on Linux systems. To install Podman in Red H
 *********
 
 ## Quiz: Overview of Container Architecture
-5. Which three of the following Linux features are used for running containers? (Choose three.)
+5. **Which three of the following Linux features are used for running containers? (Choose three.)**
+
     - Namespaces
     - Integrity Management
     - Security-Enhanced Linux 
@@ -182,7 +184,8 @@ Currently, Podman is only available on Linux systems. To install Podman in Red H
 
 *********
 
-6. Which of the following best describes a container image?
+6. **Which of the following best describes a container image?**
+
     - A virtual machine image from which a container will be created. 
     - A container blueprint from which a container will be created.
     - A runtime environment where an application will run.
@@ -190,7 +193,8 @@ Currently, Podman is only available on Linux systems. To install Podman in Red H
 
 *********
 
-7. Which three of the following components are common across container architecture implementations? (Choose three.)
+7. **Which three of the following components are common across container architecture implementations? (Choose three.)**
+
     - Container runtime
     - Container permissions
     - Container images 
@@ -198,7 +202,8 @@ Currently, Podman is only available on Linux systems. To install Podman in Red H
 
 *********
 
-8. What is a container in relation to the Linux kernel?
+8. **What is a container in relation to the Linux kernel?**
+   
     - A virtual machine.
     - An isolated process with regulated resource access. 
     - A set of file-system layers exposed by UnionFS.
