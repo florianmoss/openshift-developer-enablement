@@ -1,4 +1,4 @@
-Table of Contents
+**Table of Contents**
 1. [Containerized Applications](#containerized-applications)
 1. [Quiz: Overview of Container Technology](#quiz-overview-of-container-technology)
 1. [Overview of Container Architecture](#overview-of-container-architecture)
@@ -6,16 +6,16 @@ Table of Contents
     - [Containerized Applications](#managing-containers-with-podman)
     - [Quiz: Overview of Container Architecture](#quiz-overview-of-container-architecture)
 1. [Images: Buildah](#image-buildah)
-    - [Buildah and Podman relationship]()
-    - [Example]()
-    - [Commands]()
+    - [Buildah and Podman relationship](#buildah-and-podman-relationship)
+    - [Example: Buildah](#example-buildah)
+    - [Example: Dockerfile](#example-dockerfile)
+    - [Commands](#buildah-commands)
 1. [Containers: Podman](#container-podman)
-    - [Overview and Scope]()
-    - [Rootless]()
-    - [Commands]()
-1. [Image Registry: Quay.io, Docker Hub](#image-registry-quayio-docker-hub)
-1. [Container Runtime](#container-runtime)
+    - [Overview and Scope](#overview-and-scope)
+    - [Rootless](#rootless)
+    - [Commands](#commands)
 1. [Additional Resources](#additional-resources)
+    - [Podman Cheatsheet](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/additional-resources/podman_basics.pdf)
 1. [Solutions](#solutions)
 
 
@@ -289,7 +289,7 @@ you to manage and maintain those images and containers in a production environme
 familiar container cli commands.  For more details, see the
 [Container Tools Guide](https://github.com/containers/buildah/tree/main/docs/containertools).
 
-### Example
+### Example Buildah
 
 ```bash
 $ cat > lighttpd.sh <<"EOF"
@@ -316,6 +316,21 @@ EOF
 
 $ chmod +x lighttpd.sh
 $ sudo ./lighttpd.sh
+```
+
+### Example Dockerfile
+
+```bash
+# This is your base image, the starting point.
+# In this case, it’s the official Red Hat NodeJS image
+FROM ubi8/nodejs-12
+# Add application sources 
+ADD app.js .
+ADD package.json .
+# Installs all of the required dependencies inside your image.
+RUN npm install
+# This is what runs when the image is started
+CMD npm run -d start
 ```
 
 ### Buildah Commands
