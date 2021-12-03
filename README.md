@@ -29,11 +29,45 @@ We will start with a light introduction, going through the objectives over the n
 
 The goal for this week is to understand what a container is, how it differs from traditional application, and how a container works.
 
-You can find the full script for this session [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/containers.md)
+You can find a **full script** for this session [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/containers.md) The script gives a little bit more **background** to the presentation, includes a small **quiz**, and expands on the slides.
+
+If you are interested in the PDF to the **presentation**, please find this [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/presentation/ContainersContainersContainers.pdf)
+
+All hands-on exercises are available via the [online lab section.](https://lab.redhat.com/).
+
+
 
 ## Week 2 - Self Guided Exercises
 
-// to be added
+1. **[mandatory]** 
+
+    Read through the linked material for week 2 and make sure you understand the differences between: image, container, image registry and container runtime. 
+
+2. **[mandatory]** 
+
+    Do the following hands-on labs:
+
+    - [Creating images with Container Tools [buildah]](https://lab.redhat.com/buildah)
+    - [Deploying containers using Container Tools [podman]](https://lab.redhat.com/podman-deploy)
+    - [Build an application into a container image using RHEL Container Tools](https://lab.redhat.com/containerize-app)
+
+3. **[mandatory, except the last step]**
+
+    - Open a RHEL sandbox environment in the [lab section](https://lab.redhat.com/sandbox).
+    - Run ```yum update -y```, this will update your system to the latest versions, unfortunately this takes 5-7 min, keep reading whole your system updates
+    - Make sure that ```buildah``` and ```podman``` are installed in your environment. You can use ```yum install <name>``` for this
+    - Check how many ```buildah images``` you have present on your host
+    - Use this [Dockerfile](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/nodeJS-sample/Dockerfile) and this [amazing node.JS application](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/nodeJS-sample/app.js) to build a new image. You can create the 3 relevant files with ```vi Dockerfile```, ```vi app.js``` and ```vi package.json``` and copy the content over
+    
+        **Hint:** ```buildah bud -f Dockerfile -t <image-name> .```
+
+    - Revise the Dockerfile and understand what is happening, the [following resource](https://catalog.redhat.com/software/containers/ubi8/nodejs-12/5d3fff015a13461f5fb8635a) will help you
+
+    - Use ```podman``` to list your local images. Use the image you have created with buildah to ```create``` and ```start``` a container. Use the [podman docs](https://docs.podman.io/en/latest/Commands.html) if needed
+    
+    - On which port did your container start? 
+    
+    - Rather than using the Dockerfile, can you build an image using `buildah` CLI commands?
 
 ## Week 3 - Online Classroom - Core Kubernetes Concepts
 
