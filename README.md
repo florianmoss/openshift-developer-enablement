@@ -1,9 +1,9 @@
 # Openshift Developer Enablement
-👋👋👋
+👋 &nbsp;👋 &nbsp;👋 &nbsp;👋 &nbsp;👋 &nbsp;👋 &nbsp;👋 &nbsp;👋
 
 This is repo contains content for the developer onboarding workshop. Over the coming weeks, we will have multiple sessions together that will include **Workshops**, **self-guided training** and **online classrooms**. 
 
-👀🚨
+👀 &nbsp; 🚨
 
 The main hub for us is the **Miro board**, a link to the board was distributed this morning and will be shared via E-Mail. Please <a href="mailto:fmoss@redhat.com">E-Mail me</a> if you can't find the link or don't have access to the Miro board.
 
@@ -11,27 +11,27 @@ The main hub for us is the **Miro board**, a link to the board was distributed t
 
 We will start with a light introduction, going through the objectives over the next few weeks and introducing OpenShift. 
 
-📫  **Content and Links**
+📫 &nbsp; **Content and Links**
 
 - [Presentation](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week1/OpenShift4%20%20-%20Developers%20Edition.pdf)
 
-📋  **Tasks**
+📋 &nbsp; **Tasks**
 
 - Confirm your _Miro board access_
 - Get yourself a _[developer sandobox](https://developers.redhat.com/developer-sandbox/get-started)_
 
-🥅  **Goals**
+🥅  &nbsp; **Goals**
 
 - Being able to describe what OpenShift is
 - Not being afraid of what's ahead
 
 ## Week 2 - Online Classroom - Introduction to Docker/Podman/Containers
 
-The 🥅  for this week is to understand what a container is, how it differs from traditional application, and how a container works.
+The 🥅 &nbsp; for this week is to understand what a container is, how it differs from traditional application, and how a container works.
 
 You can find a 💡 **full script** for this session [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/containers.md) The script gives a little bit more **background** to the presentation, includes a small **quiz**, and expands on the slides.
 
-If you are interested in the  📑 **PDF** to the **presentation**, please find this [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/presentation/ContainersContainersContainers.pdf)
+If you are interested in the  📑 &nbsp; **PDF** to the **presentation**, please find this [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/presentation/ContainersContainersContainers.pdf)
 
 All hands-on exercises are available via the [online lab section.](https://lab.redhat.com/) More on this below.
 
@@ -39,11 +39,11 @@ All hands-on exercises are available via the [online lab section.](https://lab.r
 
 ## Week 2 - Self Guided Exercises
 
-1. **[mandatory]** 
+1. **[mandatory]** &nbsp; 💪 &nbsp; 👶
 
     Read through the linked material for week 2 and make sure you understand the differences between: image, container, image registry and container runtime. 
 
-2. **[mandatory]** 
+2. **[mandatory]** &nbsp; 💪 &nbsp; 👶 
 
     Do the following hands-on labs:
 
@@ -51,7 +51,7 @@ All hands-on exercises are available via the [online lab section.](https://lab.r
     - [Deploying containers using Container Tools [podman]](https://lab.redhat.com/podman-deploy)
     - [Build an application into a container image using RHEL Container Tools](https://lab.redhat.com/containerize-app)
 
-3. **[mandatory, except the last step]**
+3. **[mandatory, except the last step]** &nbsp; 💪 &nbsp; 🥷
 
     - Open a RHEL sandbox environment in the [lab section](https://lab.redhat.com/sandbox).
     - Run ❗ ```yum update -y``` ❗, this will update your system to the latest versions, unfortunately this takes 5-7 min, keep reading whole your system updates
@@ -67,7 +67,7 @@ All hands-on exercises are available via the [online lab section.](https://lab.r
     
     - On which port did your container start? 
 
-    - 🔑 Rather than using the Dockerfile, can you build an image using `buildah` CLI commands?
+    - 🔑 &nbsp; Rather than using the Dockerfile, can you build an image using `buildah` CLI commands?
 
 ## Week 3 - Online Classroom - Core Kubernetes Concepts
 
