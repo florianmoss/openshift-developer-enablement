@@ -15,7 +15,7 @@
     - [Rootless](#rootless)
     - [Commands](#commands)
 1. [Additional Resources](#additional-resources)
-    - [Podman Cheatsheet](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/additional-resources/podman_basics.pdf)
+    - [Podman Cheatsheet](#podman-cheatsheet)
 1. [Solutions](#solutions)
 
 
@@ -389,7 +389,12 @@ Please find a full list of commands in the [podman docs.](https://docs.podman.io
 *********
 
 ## Additional Resources
-- 
+- [Podman Cheatsheet](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week2/additional-resources/podman_basics.pdf)
+- [Complete Intro to Containers](https://btholt.github.io/complete-intro-to-containers/)
+- [Using Buildah (9min Video)](https://www.youtube.com/watch?v=SNDjOfs2zCM)
+- [Using Podman (4min Video)](https://www.youtube.com/watch?v=Za36qHbrf3g)
+
+
 ## Solutions:
 
 Question 1: a, b
