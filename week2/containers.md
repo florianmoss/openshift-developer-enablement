@@ -15,7 +15,10 @@
     - [Rootless](#rootless)
     - [Commands](#commands)
 1. [Additional Resources](#additional-resources)
-    - [Podman Cheatsheet](#podman-cheatsheet)
+    - [Podman Cheatsheet](#additional-resources)
+    - [Complete Intro to Containers](#additional-resources)
+    - [Using Buildah (9min Video)](#additional-resources)
+    - [Using Podman (4min Video)](#additional-resources)
 1. [Solutions](#solutions)
 
 
