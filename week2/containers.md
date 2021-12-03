@@ -1,3 +1,6 @@
+Table of Contents
+1. [Containerized Applications](#containerized-applications)
+
 ## Containerized Applications
 Software applications typically depend on other libraries, configuration files, or services that
 are provided by the runtime environment. The traditional runtime environment for a software
@@ -210,6 +213,22 @@ Currently, Podman is only available on Linux systems. To install Podman in Red H
     - An external service providing container images.
 
 *********
+PLEASE FIND THE SOLUTIONS AT THE BOTTOM OF THE PAGE
+*********
+
+## Image (Buildah)
+
+*********
+## Container (Podman)
+
+*********
+## Image Registry (quay.io, Docker Hub)
+
+*********
+## Container Runtime
+
+*********
+## Additional Resources
 
 ## Solutions:
 
