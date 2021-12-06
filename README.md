@@ -71,7 +71,11 @@ All hands-on exercises are available via the [online lab section.](https://lab.r
 
 ## Week 3 - Online Classroom - Core Kubernetes Concepts
 
-// to be added
+The 🥅 &nbsp; for this week is to understand what Kubernetes is, how Kubernetes works and what you absolutely must understand as a developer. This week is a step up from last week and will require additional reading. 💥 &nbsp; Please spend some time outside of the theory and practical session on revising the theory.
+
+You can find a 💡 **full script** for this session [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week3/kubernetes.md) The script gives a little bit more **background** to the presentation and expands on the slides - it also includes references to additional reading.
+
+If you are interested in the  📑 &nbsp; **PDF** to the **presentation**, please find this [here.](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week3/presentation/kubernetes.pdf)
 
 ## Week 3 - Self Guided Exercises
 
