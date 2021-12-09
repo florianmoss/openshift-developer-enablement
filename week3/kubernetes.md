@@ -2,7 +2,7 @@
 1. [Introduction](#introduction)
 1. [Kubernetes Architecture](#kubernetes-architecture)
     1. [Cluster Architecture](#cluster-architecture)
-    2. [ETCD in Kubernetes](#etcd-in-kubernetes)
+    2. [etcd in Kubernetes](#etcd-in-kubernetes)
     3. [Kube-API Server](#kube-api-server)
     4. [Kube Controller Manager](#kube-controller-manager)
     5. [Kube Scheduler](#kube-scheduler)
@@ -48,20 +48,78 @@ It is not essential that you can remember every single detail from this week, bu
 OpenShift will make interacting with a lot of these concepts significantly easier.
 
 ## Kubernetes Architecture
+Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation.
 
-#### Cluster Architecture
+Let's remember - we talked about containers in the last week. Containers itself are fairly primitive and are 'only' a way to package up an application. A container by itself is pretty useless when we think about easing the operations side of things.
 
-#### ETCD in Kubernetes
+![Container Deployments vs other ways](images/containers.png)
 
-#### Kube-API Server
+Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?
 
-#### Kube Controller Manager
+That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. For example, Kubernetes can easily manage a canary deployment for your system.
 
-#### Kube Scheduler
+**Service discovery and load balancing**
 
-#### Kubelet
+Kubernetes can expose a container using the DNS name or using their own IP address. If traffic to a container is high, Kubernetes is able to load balance and distribute the network traffic so that the deployment is stable.
 
-#### Kube Proxy
+**Storage orchestration**
+
+Kubernetes allows you to automatically mount a storage system of your choice, such as local storages, public cloud providers, and more.
+
+**Automated rollouts and rollbacks** 
+
+You can describe the desired state for your deployed containers using Kubernetes, and it can change the actual state to the desired state at a controlled rate. For example, you can automate Kubernetes to create new containers for your deployment, remove existing containers and adopt all their resources to the new container.
+
+**Automatic bin packing** 
+
+You provide Kubernetes with a cluster of nodes that it can use to run containerized tasks. You tell Kubernetes how much CPU and memory (RAM) each container needs. Kubernetes can fit containers onto your nodes to make the best use of your resources.
+
+**Self-healing** 
+
+Kubernetes restarts containers that fail, replaces containers, kills containers that don't respond to your user-defined health check, and doesn't advertise them to clients until they are ready to serve.
+
+**Secret and configuration management** 
+
+Kubernetes lets you store and manage sensitive information, such as passwords, OAuth tokens, and SSH keys. You can deploy and update secrets and application configuration without rebuilding your container images, and without exposing secrets in your stack configuration.
+
+
+### Cluster Architecture
+So what exactly is it and how does it look from an architecture perspective?
+
+Like this..
+
+![Kubernetes Architecture](images/kubernetes.png)
+
+Source: [Ashish Patel](https://medium.com/devops-mojo/kubernetes-architecture-overview-introduction-to-k8s-architecture-and-understanding-k8s-cluster-components-90e11eb34ccd)
+
+Ok, I admit that this is not straight forward at this stage. The important thing to understand at this stage is: There is a control plane side and a worker node side.
+
+The control plane is responsible for the actual orchestration part. Think about it like a harbor where container ships are being loaded and unloaded.
+
+The actual container ship are the worker nodes. These worker nodes carry/host your containers. 
+
+The individual parts of the operation will be explained in more detail down below. At this stage, all you need to know:
+
+control plane => harbor
+
+worker nodes => container ships
+
+containers => what the harbor orchestrates onto the container ships are containers, we will call them Pods though.
+
+### etcd in Kubernetes
+Think about etcd as the fileroom of the harbor. All information about incoming ships, outgoing ships, container deliveries etc need to be stored somewhere. 
+
+This is what etcd is: A key-value store for all cluster data. 
+
+### Kube-API Server
+
+### Kube Controller Manager
+
+### Kube Scheduler
+
+### Kubelet
+
+### Kube Proxy
 
 ## Core Concepts
 
@@ -127,3 +185,6 @@ OpenShift will make interacting with a lot of these concepts significantly easie
 
 #### Kubernetes Docs
 [kubernetes.io](https://kubernetes.io/docs/home/)
+
+#### Kube by Example
+[kube by:example](https://kubebyexample.com/)
