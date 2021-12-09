@@ -1,5 +1,6 @@
 **Table of Contents**
 1. [Introduction](#introduction)
+    1. [YAML](#yaml)
 1. [Kubernetes Architecture](#kubernetes-architecture)
     1. [Cluster Architecture](#cluster-architecture)
     2. [etcd in Kubernetes](#etcd-in-kubernetes)
@@ -9,6 +10,7 @@
     6. [Kubelet](#kubelet)
     7. [Kube Proxy](#kube-proxy)
 1. [Core Concepts](#core-concepts)
+    1. [Kubernetes Objects](#kubernetes-objects)
     1. [Pods](#pods)
     2. [ReplicaSets](#replicasets)
     3. [Deployments](#deployments)
@@ -47,6 +49,16 @@ It is not essential that you can remember every single detail from this week, bu
 
 OpenShift will make interacting with a lot of these concepts significantly easier.
 
+### YAML
+Love it or hate it - you better make piece with the fact that you are gonna see more YAML files than you will see your children.
+
+If you don't know how to use YAML, you better learn it now. Learn it properly once, it's worth it and it shouldn't take more than 30 minutes. 
+
+Everything in Kubernetes is expressed in YAML files.
+
+[CloudBess - Getting started with YAML](https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started)
+
+[YAML: Learn in X minutes](https://learnxinyminutes.com/docs/yaml/)
 ## Kubernetes Architecture
 Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation.
 
@@ -112,79 +124,156 @@ Think about etcd as the fileroom of the harbor. All information about incoming s
 This is what etcd is: A key-value store for all cluster data. 
 
 ### Kube-API Server
+Kubernetes is fully API driven. The kube-api server is the 'frontend' for the control plane. Think about it as the gate into the harbor. 
+
+The great thing is that you can have more than one gate. If you have more requests for your harbor, just create another gate and balance incoming traffic between the gates.
+
+Most harbors have 3 gates ;)
 
 ### Kube Controller Manager
+The kube controller manager is actually not one manager but has many managers. Each manager has a partcular job and runs in a loop. At every loop the manager makes sure that their specific area of the harbor is in order and exactly in the way the file system (etcd) tells them to. 
+
+Our managers are really important, because they make sure things are exactly in the state we want them to be at!
 
 ### Kube Scheduler
+The kube-scheduler is the crane master of the harbor. One ship might look already pretty busy? The crane master will then make sure to load another ship with the next container.
+
+Loading containers is an ongoing tasks. Sometimes it is windy and a container goes over board, then the kube-scheduler needs to reassign a container with the exact same specifications.
 
 ### Kubelet
+The kubelet is an agent on each of our ships (worker nodes) and makes sure that each pod (1 or more containers) are functioning as expected.
+
+As developers we don't really care about this of course because all we want to do is fill containers with valuable content!
 
 ### Kube Proxy
+Ok, I am running out of metaphors here! The kube-proxy is a network proxy that runs on each node in the cluster, it is responsible for implementing and adhering to network rules. It also is resposible for handling traffic into the pod.
 
 ## Core Concepts
 
-#### Pods
+### Kubernetes Objects
+Everything in Kubernetes is expressed in YAML and is nothing but an object. 
 
-#### ReplicaSets
+Kubernetes objects are persistent entities in the Kubernetes system. Kubernetes uses these entities to represent the state of your cluster. Specifically, they can describe:
 
-#### Deployments
+- What containerized applications are running (and on which nodes)
+- The resources available to those applications
+- The policies around how those applications behave, such as restart policies, upgrades, and fault-tolerance
 
-#### Namespaces
+A Kubernetes object is a "record of intent"--once you create the object, the Kubernetes system will constantly work to ensure that object exists. By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's desired state.
 
-#### Mutli-Container Pods
+To work with Kubernetes objects--whether to ```create```, ```modify```, or ```delete``` them--you'll need to use the Kubernetes API. When you use the kubectl command-line interface, for example, the CLI makes the necessary Kubernetes API calls for you. You can also use the Kubernetes API directly in your own programs using one of the Client Libraries.
+
+In the .yaml file for the Kubernetes object you want to create, you'll need to set values for the following fields:
+
+- ```apiVersion``` - Which version of the Kubernetes API you're using to create this object
+- ```kind``` - What kind of object you want to create
+- ```metadata``` - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+- ```spec``` - What state you desire for the object
+
+The precise format of the object spec is different for every Kubernetes object, and contains nested fields specific to that object. 
+
+```yaml
+# The api version is usually something like v1, v2, or apps/v1
+apiVersion: apps/v1
+# There are various kinds of objects, Deployment is one of them
+kind: Deployment
+# This is where we can use labels and names to group/order our objects
+metadata:
+  name: nginx-deployment
+# This is the 'body' of our object and specifies what its behaviour
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+If you knew nothing about the ```Deployment``` object and its content, the [Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) will be able to help you.
+
+[More on Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/)
+### Pods
+A Pod is a set of running containers in a cluster. This means: One or more.
+
+Like individual application containers, Pods are considered to be relatively ephemeral (rather than durable) entities. Pods are created, assigned a unique ID (UID), and scheduled to nodes where they remain until termination (according to restart policy) or deletion. If a Node dies, the Pods scheduled to that node are scheduled for deletion after a timeout period.
+
+Pods do not, by themselves, self-heal. If a Pod is scheduled to a node that then fails, the Pod is deleted; likewise, a Pod won't survive an eviction due to a lack of resources or Node maintenance. Kubernetes uses a higher-level abstraction, called a controller, that handles the work of managing the relatively disposable Pod instances.
+
+As mentioned earlier, a Pod is expressed in YAML:
+
+
+
+[Pods: Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/pods/)
+
+### ReplicaSets
+
+### Deployments
+
+### Namespaces
+
+### Mutli-Container Pods
 
 ## Application Configuration
 
-#### Environment Variables
+### Environment Variables
 
-#### ConfigMaps
+### ConfigMaps
 
-#### Secrets
+### Secrets
 
 ## Application Observability
 
-#### Readiness and Liveness Probes
+### Readiness and Liveness Probes
 
-#### Container Logging
+### Container Logging
 
-#### Monitor and Debug Applications
+### Monitor and Debug Applications
 
 ## Pod Design
 
-#### Labels, Selectors and Annotations
+### Labels, Selectors and Annotations
 
-#### Rolling Updates and Rollbacks
+### Rolling Updates and Rollbacks
 
 ## Services and Networking
 
-#### Services
+### Services
 
-#### Services - ClusterIP
+### Services - ClusterIP
 
-#### Ingress Networking
+### Ingress Networking
 
 ## Storage and State
 
-#### Volumes
+### Volumes
 
-#### Persistent Volumes
+### Persistent Volumes
 
-#### Persistent Volume Claims
+### Persistent Volume Claims
 
-#### Storage Classes
+### Storage Classes
 
-#### StatefulSets
+### StatefulSets
 
 ## Application Packaging
 
-#### Helm
+### Helm
 
-#### Operators
+### Operators
 
 ## Additional References
 
-#### Kubernetes Docs
+### Kubernetes Docs
 [kubernetes.io](https://kubernetes.io/docs/home/)
 
-#### Kube by Example
+### Kube by Example
 [kube by:example](https://kubebyexample.com/)
