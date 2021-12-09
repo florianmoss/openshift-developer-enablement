@@ -38,6 +38,7 @@
 1. [Application Packaging](#application-packaging)
     1. [Helm](#helm)
     2. [Operators](#operators)
+1. [Additional References](#additional-references)
 
 ## Introduction
 The content for this week is based on the official [Certified Kubernetes Application Developer](https://github.com/cncf/curriculum/blob/master/CKAD_Curriculum_v1.22.pdf) curriculum. I am adding on top of it a few pieces around the general Kubernetes architecture that I believe are important to understand.
@@ -46,14 +47,83 @@ It is not essential that you can remember every single detail from this week, bu
 
 OpenShift will make interacting with a lot of these concepts significantly easier.
 
-## Cluster Architecture
+## Kubernetes Architecture
 
-## Application Design and Build
+#### Cluster Architecture
 
-## Application Deployment
+#### ETCD in Kubernetes
 
-## Application Observability and Maintenance
+#### Kube-API Server
 
-## Application Environment, Configuration and Security
+#### Kube Controller Manager
+
+#### Kube Scheduler
+
+#### Kubelet
+
+#### Kube Proxy
+
+## Core Concepts
+
+#### Pods
+
+#### ReplicaSets
+
+#### Deployments
+
+#### Namespaces
+
+#### Mutli-Container Pods
+
+## Application Configuration
+
+#### Environment Variables
+
+#### ConfigMaps
+
+#### Secrets
+
+## Application Observability
+
+#### Readiness and Liveness Probes
+
+#### Container Logging
+
+#### Monitor and Debug Applications
+
+## Pod Design
+
+#### Labels, Selectors and Annotations
+
+#### Rolling Updates and Rollbacks
 
 ## Services and Networking
+
+#### Services
+
+#### Services - ClusterIP
+
+#### Ingress Networking
+
+## Storage and State
+
+#### Volumes
+
+#### Persistent Volumes
+
+#### Persistent Volume Claims
+
+#### Storage Classes
+
+#### StatefulSets
+
+## Application Packaging
+
+#### Helm
+
+#### Operators
+
+## Additional References
+
+#### Kubernetes Docs
+[kubernetes.io](https://kubernetes.io/docs/home/)
