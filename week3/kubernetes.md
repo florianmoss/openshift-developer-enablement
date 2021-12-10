@@ -15,7 +15,6 @@
     2. [ReplicaSets](#replicasets)
     3. [Deployments](#deployments)
     4. [Namespaces](#namespaces)
-    5. [Mutli-Container Pods](#multi-container-pods)
 1. [Application Configuration](#application-configuration)
     1. [Environment Variables](#environment-variables)
     2. [ConfigMaps](#config-maps)
@@ -260,15 +259,7 @@ kubectl edit pod nginx
 
 [Pods: Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/pods/)
 
-<iframe
-    width="640"
-    height="480"
-    src="https://www.youtube.com/embed/UmX4kyB2wfg"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen
->
-</iframe>
+[![Pods](https://img.youtube.com/vi/nbLJ1_SQH1A/0.jpg)](https://www.youtube.com/watch?v=nbLJ1_SQH1A)
 
 ### ReplicaSets
 A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
@@ -304,6 +295,7 @@ You will usually not work with ReplicaSets because there is a much cooler thing 
 
 You can find more on [ReplicaSets in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
 
+[![ReplicaSets](https://img.youtube.com/vi/uQaMDZFP2CI/0.jpg)](https://www.youtube.com/watch?v=uQaMDZFP2CI)
 
 ### Deployments
 A Deployment provides declarative updates for Pods and ReplicaSets.
@@ -348,6 +340,8 @@ spec:
 
 You can find more on [Deployments in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
+[![Deployments](https://img.youtube.com/vi/2gpLYpOGvLI/0.jpg)](https://www.youtube.com/watch?v=2gpLYpOGvLI)
+
 ### Namespaces
 Namespaces are intended for use in environments with many users spread across multiple teams, or projects. 
 
@@ -368,15 +362,111 @@ kubectl config view --minify | grep namespace:
 
 You can find more on [Namespaces in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
 
-### Mutli-Container Pods
-
 ## Application Configuration
 
 ### Environment Variables
 
+When you create a Pod, you can set environment variables for the containers that run in the Pod. To set environment variables, include the env or envFrom field in the configuration file.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envar-demo
+  labels:
+    purpose: demonstrate-envars
+spec:
+  containers:
+  - name: envar-demo-container
+    image: gcr.io/google-samples/node-hello:1.0
+    env:
+    - name: DEMO_GREETING
+      value: "Hello from the environment"
+    - name: DEMO_FAREWELL
+      value: "Such a sweet sorrow"
+```
+
+When you create a Pod, you can set dependent environment variables for the containers that run in the Pod. To set dependent environment variables, you can use $(VAR_NAME) in the value of env in the configuration file.
+
+For example:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dependent-envars-demo
+spec:
+  containers:
+    - name: dependent-envars-demo
+      args:
+        - while true; do echo -en '\n'; printf UNCHANGED_REFERENCE=$UNCHANGED_REFERENCE'\n'; printf SERVICE_ADDRESS=$SERVICE_ADDRESS'\n';printf ESCAPED_REFERENCE=$ESCAPED_REFERENCE'\n'; sleep 30; done;
+      command:
+        - sh
+        - -c
+      image: busybox
+      env:
+        - name: SERVICE_PORT
+          value: "80"
+        - name: SERVICE_IP
+          value: "172.17.0.1"
+        - name: UNCHANGED_REFERENCE
+          value: "$(PROTOCOL)://$(SERVICE_IP):$(SERVICE_PORT)"
+        - name: PROTOCOL
+          value: "https"
+        - name: SERVICE_ADDRESS
+          value: "$(PROTOCOL)://$(SERVICE_IP):$(SERVICE_PORT)"
+        - name: ESCAPED_REFERENCE
+          value: "$$(PROTOCOL)://$(SERVICE_IP):$(SERVICE_PORT)"
+```
+[![ConfigMaps](https://img.youtube.com/vi/hdnSMcnGTbQ/0.jpg)](https://www.youtube.com/watch?v=hdnSMcnGTbQ)
+
+
 ### ConfigMaps
+A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume.
+
+A ConfigMap allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
+
+     Caution: ConfigMap does not provide secrecy or encryption. If the data you want to store are confidential, use a Secret rather than a ConfigMap, or use additional (third party) tools to keep your data private.
+
+I strongly recommend reading up on [ConfigMaps and their applications.](https://kubernetes.io/docs/concepts/configuration/configmap/)
+
+[![ConfigMaps](https://img.youtube.com/vi/hdnSMcnGTbQ/0.jpg)](https://www.youtube.com/watch?v=hdnSMcnGTbQ)
 
 ### Secrets
+Secrets are encrypted pieces of information that we can make available to Kubernetes objects - often Deployments.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-secret
+data:
+  username: bXktYXBw
+  password: Mzk1MjgkdmRnN0pi
+```
+
+You could make this secret now available to a Pod:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: nginx
+      volumeMounts:
+        # name must match the volume name below
+        - name: secret-volume
+          mountPath: /etc/secret-volume
+  # The secret data is exposed to Containers in the Pod through a Volume.
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: test-secret
+```
+
+[![Secrets](https://img.youtube.com/vi/ZKsl28RUvH4/0.jpg)](https://www.youtube.com/watch?v=ZKsl28RUvH4)
+
 
 ## Application Observability
 
