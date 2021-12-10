@@ -19,34 +19,21 @@
     1. [Environment Variables](#environment-variables)
     2. [ConfigMaps](#config-maps)
     3. [Secrets](#secrets)
-1. [Application Observability](#application-observability)
     1. [Readiness and Liveness Probes](#readiness-and-liveness-probes)
-    2. [Container Logging](#container-logging)
-    3. [Monitor and Debug Applications](#monitor-and-debug-applications)
 1. [Pod Design](#pod-design)
-    1. [Labels, Selectors and Annotations](#labels-selectors-and-annotations)
+    1. [Labels and Selectors](#labels-and-selectors)
     2. [Rolling Updates and Rollbacks](#rolling-updates-and-rollbacks)
 1. [Services and Networking](#services-and-networking)
-    1. [Services](#services)
-    2. [Services - ClusterIP](#services-clusterip)
+    1. [Services (Cluster IP](#services)
     3. [Ingress Networking](#ingress-networking)
-1. [Storage and State](#storage-and-state)
-    1. [Volumes](#volumes)
-    2. [Persistent Volumes](#persistent-volumes)
-    3. [Persistent Volume Claims](#persisten-volume-claims)
-    4. [Storage Classes](#storage-classes)
-    5. [StatefulSets](#statefulsets)
-1. [Application Packaging](#application-packaging)
-    1. [Helm](#helm)
-    2. [Operators](#operators)
 1. [Additional References](#additional-references)
 
 ## Introduction
-The content for this week is based on the official [Certified Kubernetes Application Developer](https://github.com/cncf/curriculum/blob/master/CKAD_Curriculum_v1.22.pdf) curriculum. I am adding on top of it a few pieces around the general Kubernetes architecture that I believe are important to understand.
+The content for this week is based on the official [Certified Kubernetes Application Developer](https://github.com/cncf/curriculum/blob/master/CKAD_Curriculum_v1.22.pdf) curriculum. I have added a few parts around the Kubernetes architecture and removed everything around storage and monitoring to keep the content somewhat manageable. 
 
 It is not essential that you can remember every single detail from this week, but understand general idea and how Kubernetes works.
 
-OpenShift will make interacting with a lot of these concepts significantly easier.
+OpenShift will make interacting with a lot of these concepts significantly easier. And please don't feel afraid by the overwhelming amount of material, I know it's a lot. It will become easier!
 
 ### YAML
 Love it or hate it - you better make piece with the fact that you are gonna see more YAML files than you will see your children.
@@ -55,7 +42,7 @@ If you don't know how to use YAML, you better learn it now. Learn it properly on
 
 Everything in Kubernetes is expressed in YAML files.
 
-[CloudBess - Getting started with YAML](https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started)
+[CloudBees - Getting started with YAML](https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started)
 
 [YAML: Learn in X minutes](https://learnxinyminutes.com/docs/yaml/)
 ## Kubernetes Architecture
@@ -467,46 +454,144 @@ spec:
 
 [![Secrets](https://img.youtube.com/vi/ZKsl28RUvH4/0.jpg)](https://www.youtube.com/watch?v=ZKsl28RUvH4)
 
-
-## Application Observability
-
 ### Readiness and Liveness Probes
+The kubelet uses liveness probes to know when to restart a container. For example, liveness probes could catch a deadlock, where an application is running, but unable to make progress. Restarting a container in such a state can help to make the application more available despite bugs.
 
-### Container Logging
+The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. One use of this signal is to control which Pods are used as backends for Services. When a Pod is not ready, it is removed from Service load balancers.
 
-### Monitor and Debug Applications
+The kubelet uses startup probes to know when a container application has started. If such a probe is configured, it disables liveness and readiness checks until it succeeds, making sure those probes don't interfere with the application startup. This can be used to adopt liveness checks on slow starting containers, avoiding them getting killed by the kubelet before they are up and running.
+
+There is a lot more to learn about this, [please have a lot at the docs.](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+
+[![Readiness and Liveness Probes](https://img.youtube.com/vi/_9R0x_FoiHY/0.jpg)](https://www.youtube.com/watch?v=_9R0x_FoiHY)
+
 
 ## Pod Design
 
-### Labels, Selectors and Annotations
+### Labels and Selectors
+Labels are key/value pairs that are attached to objects, such as pods. Labels are intended to be used to specify identifying attributes of objects that are meaningful and relevant to users, but do not directly imply semantics to the core system. Labels can be used to organize and to select subsets of objects. Labels can be attached to objects at creation time and subsequently added and modified at any time. Each object can have a set of key/value labels defined. Each Key must be unique for a given object.
+
+```yaml
+"metadata": {
+  "labels": {
+    "key1" : "value1",
+    "key2" : "value2"
+  }
+}
+```
+Labels allow for efficient queries and watches and are ideal for use in UIs and CLIs. Non-identifying information should be recorded using annotations.
+
+Labels enable users to map their own organizational structures onto system objects in a loosely coupled fashion, without requiring clients to store these mappings.
+
+Service deployments and batch processing pipelines are often multi-dimensional entities (e.g., multiple partitions or deployments, multiple release tracks, multiple tiers, multiple micro-services per tier). Management often requires cross-cutting operations, which breaks encapsulation of strictly hierarchical representations, especially rigid hierarchies determined by the infrastructure rather than by users.
+
+**Example labels:**
+
+- "```release```" : "```stable```", "```release```" : "```canary```"
+- "```environment```" : "```dev```", "```environment```" : "```qa```", "```environment```" : "```production```"
+- "```tier```" : "```frontend```", "```tier```" : "```backend```", "```tier```" : "```cache```"
+- "```partition```" : "```customerA```", "```partition```" : "```customerB```"
+- "```track```" : "```daily```", "```track```" : "```weekly```"
+
+[!!! Please review these commonly used labels. !!!](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)
+
+And read the [relevant section in the docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/).
+
+[![Labels](https://img.youtube.com/vi/mMslJF-Hzqs/0.jpg)](https://www.youtube.com/watch?v=mMslJF-Hzqs)
 
 ### Rolling Updates and Rollbacks
+Users expect applications to be available all the time and developers are expected to deploy new versions of them several times a day. In Kubernetes this is done with rolling updates. Rolling updates allow Deployments' update to take place with zero downtime by incrementally updating Pods instances with new ones. The new Pods will be scheduled on Nodes with available resources.
+
+In Kubernetes, updates are versioned and any Deployment update can be reverted to a previous (stable) version.
+
+The following example shows how a rolling update works.
+
+First, we have a deployment that manages 4 containers across 3 nodes. The Deployment is upgraded to a new verion. 
+
+![](images/rolling1.png)
+
+Because we have a rolling update and want to take down one pod at a time, the one in the top left is taken down first and then redeployed with the new version.
+
+![](images/rolling2.png)
+
+The same is now done with the container in the bottom.
+
+![](images/rolling3.png)
+
+The same is repeated until all containers are upgraded to the new version specified in the deployment.
+
+![](images/rolling4.png)
+
+
+If we can do that, it makes sense that we can also [rollback to a previous version.](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment)
+
+[![Rolling updates](https://img.youtube.com/vi/VDwBc7LQQiY/0.jpg)](https://www.youtube.com/watch?v=VDwBc7LQQiY)
+
 
 ## Services and Networking
 
 ### Services
+Services are an abstract way to expose an application running on a set of Pods as a network service.
 
-### Services - ClusterIP
+With Kubernetes you don't need to modify your application to use an unfamiliar service discovery mechanism. Kubernetes gives Pods their own IP addresses and a single DNS name for a set of Pods, and can load-balance across them.
+
+Why?
+
+Kubernetes Pods are created and destroyed to match the state of your cluster. Pods are nonpermanent resources. If you use a Deployment to run your app, it can create and destroy Pods dynamically.
+
+Each Pod gets its own IP address, however in a Deployment, the set of Pods running in one moment in time could be different from the set of Pods running that application a moment later.
+
+This leads to a problem: if some set of Pods (call them "backends") provides functionality to other Pods (call them "frontends") inside your cluster, how do the frontends find out and keep track of which IP address to connect to, so that the frontend can use the backend part of the workload?
+
+In Kubernetes, a Service is an abstraction which defines a logical set of Pods and a policy by which to access them (sometimes this pattern is called a micro-service). The set of Pods targeted by a Service is usually determined by a selector.
+
+For example, suppose you have a set of Pods where each listens on TCP port 9376 and contains a label app=MyApp:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+```
+
+This specification creates a new Service object named "my-service", which targets TCP port 9376 on any Pod with the app=MyApp label.
+
+Kubernetes assigns this Service an IP address (sometimes called the "cluster IP"), which is used by the Service proxies
+
+[![Rolling updates](https://img.youtube.com/vi/yHObA-rlX-Q/0.jpg)](https://www.youtube.com/watch?v=yHObA-rlX-Q)
 
 ### Ingress Networking
+Ingress Networking is an API object that manages external access to the services in a cluster, typically HTTP.
 
-## Storage and State
+Ingress may provide load balancing, SSL termination and name-based virtual hosting.
 
-### Volumes
+For clarity, this guide defines the following terms:
 
-### Persistent Volumes
+- **Node**: A worker machine in Kubernetes, part of a cluster.
+- **Cluster**: A set of Nodes that run containerized applications managed by Kubernetes. For this example, and in most common Kubernetes deployments, nodes in the cluster are not part of the public internet.
+- **Edge router**: A router that enforces the firewall policy for your cluster. This could be a gateway managed by a cloud provider or a physical piece of hardware.
+- **Cluster network**: A set of links, logical or physical, that facilitate communication within a cluster according to the Kubernetes networking model.
+- **Service**: A Kubernetes Service that identifies a set of Pods using label selectors. Unless mentioned otherwise, Services are assumed to have virtual IPs only routable within the cluster network.
 
-### Persistent Volume Claims
+**What is Ingress?**
+Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
 
-### Storage Classes
+Here is a simple example where an Ingress sends all its traffic to one Service:
 
-### StatefulSets
+![Ingress](images/ingress.png)
 
-## Application Packaging
+An Ingress may be configured to give Services externally-reachable URLs, load balance traffic, terminate SSL / TLS, and offer name-based virtual hosting. An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic.
 
-### Helm
+An Ingress does not expose arbitrary ports or protocols. Exposing services other than HTTP and HTTPS to the internet typically uses a service of type Service.Type=NodePort or Service.Type=LoadBalancer.
 
-### Operators
+More on Ingress in the [docs.](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 
 ## Additional References
 
