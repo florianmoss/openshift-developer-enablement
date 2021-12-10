@@ -201,6 +201,7 @@ spec:
 If you knew nothing about the ```Deployment``` object and its content, the [Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) will be able to help you.
 
 [More on Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/)
+
 ### Pods
 A Pod is a set of running containers in a cluster. This means: One or more.
 
@@ -208,15 +209,134 @@ Like individual application containers, Pods are considered to be relatively eph
 
 Pods do not, by themselves, self-heal. If a Pod is scheduled to a node that then fails, the Pod is deleted; likewise, a Pod won't survive an eviction due to a lack of resources or Node maintenance. Kubernetes uses a higher-level abstraction, called a controller, that handles the work of managing the relatively disposable Pod instances.
 
-As mentioned earlier, a Pod is expressed in YAML:
+Like every other object, a Pod can of course be expressed in YAML:
 
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  mykey: myvalue
+spec:
+  containers:
+  - name: nginx
+    # take note of the image label/version
+    image: nginx:1.14.2
+    ports:
+    # The port we want to open
+    - containerPort: 80
+```
 
+To actually get this file/definition/object into our Kubernetes cluster, we need to tell etcd about it.
+
+The way we would go about this is saving our definition, let's say as ```pod.yaml```. 
+
+```kubectl apply -f pod.yaml```. 
+
+This applies the object in our current namespace.
+
+Other important commands are:
+
+```yaml
+# Get pods in current namespace
+kubectl get pods
+
+# Describe the pod with the name nginx
+kubectl describe pod nginx
+
+# Filter specific information from a pod
+kubectl get pod nginx | grep Status
+
+# Delete Pod
+kubectl delete pod nginx
+
+# Create a Pod/apply the definition with the name redis.yaml
+kubectl create -f redis.yaml
+
+# Edit a running Pod
+kubectl edit pod nginx
+
+```
 
 [Pods: Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/pods/)
 
 ### ReplicaSets
+A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
+
+A ReplicaSet is defined with fields, including a selector that specifies how to identify Pods it can acquire, a number of replicas indicating how many Pods it should be maintaining, and a pod template specifying the data of new Pods it should create to meet the number of replicas criteria. A ReplicaSet then fulfills its purpose by creating and deleting Pods as needed to reach the desired number. When a ReplicaSet needs to create new Pods, it uses its Pod template.
+
+```yaml
+apiVersion: apps/v1
+# take note of the type 'ReplicaSet' here
+kind: ReplicaSet
+metadata:
+  # this is simply the name of our RS
+  name: my-replicaset
+spec:
+  # The amount of replicas we want to run of our container
+  replicas: 2
+  # This is important: Read it as "match all labels of the key-value pair 'app: my-app' with a template that has the same key-value pair. See below.
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        # The key-value pair needs to be matching
+        app: my-app
+    spec:
+      # This is the spec of the actual image we want to deploy
+      containers:
+      - name: my-container
+        image: nginx
+```
+You will usually not work with ReplicaSets because there is a much cooler thing that offers even more functionality, ```Deployments```. This is covered below.
+
+You can find more on [ReplicaSets in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
+
 
 ### Deployments
+A Deployment provides declarative updates for Pods and ReplicaSets.
+
+You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+
+I would strongly recommend reading [this article](https://www.magalix.com/blog/kubernetes-deployments-101)
+on ```Deployments``` vs ```ReplicaSets```. On paper they might look the same, as seen below on the YAML definition, but they work quite differently.
+
+In short: A ReplicaSet might lead to downtime because it doesn't have an intelligent rollout strategy, it will just create the desired pods. A ```Deployment``` can specify a variety of rollout strategies, such as ```recreate``` or ```rolling```. Both are explained in more detail in the article linked above.
+
+Definition of a Deployment configuration:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  # At max, we are taking 50% of the containers down when we upgrade to a new version/rollout. This ensures that our application has no downtime.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+    maxUnavailable: 50%
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+You can find more on [Deployments in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
 ### Namespaces
 
