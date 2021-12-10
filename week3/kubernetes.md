@@ -260,6 +260,16 @@ kubectl edit pod nginx
 
 [Pods: Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/pods/)
 
+<iframe
+    width="640"
+    height="480"
+    src="https://www.youtube.com/embed/UmX4kyB2wfg"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen
+>
+</iframe>
+
 ### ReplicaSets
 A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
 
@@ -339,6 +349,24 @@ spec:
 You can find more on [Deployments in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
 ### Namespaces
+Namespaces are intended for use in environments with many users spread across multiple teams, or projects. 
+
+Namespaces provide a scope for names. Names of resources need to be unique within a namespace, but not across namespaces. Namespaces cannot be nested inside one another and each Kubernetes resource can only be in one namespace.
+
+Namespaces are a way to divide cluster resources between multiple users (via resource quota).
+
+It is not necessary to use multiple namespaces to separate slightly different resources, such as different versions of the same software: use labels to distinguish resources within the same namespace.
+
+```yaml
+kubectl run nginx --image=nginx --namespace=<insert-namespace-name-here>
+kubectl get pods --namespace=<insert-namespace-name-here>
+
+kubectl config set-context --current --namespace=<insert-namespace-name-here>
+# Validate it
+kubectl config view --minify | grep namespace:
+```
+
+You can find more on [Namespaces in the Kubernetes Docs.](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
 
 ### Mutli-Container Pods
 
