@@ -162,9 +162,80 @@ spec:
 
 - Change the deployment config to 5 replicas (you can use the terminal or OpenShift GUI). Verify that 5 containers are running.
 
+3. **Createing a Database and Backend Service**
+- For the final exercise we will bring a few things together, Deployments, Environment Variables and ConfigMaps.
+
+Our target deployment looks like this:
+![](week3/images/target.png)
+
+It consists of a PostgreSQL database and nodeJS service that list the car details.
+
+- **Deploy a Database**
+
+- `oc new-app postgresql-persistent --name dbapp --param DATABASE_SERVICE_NAME=aadb --param POSTGRESQL_USER=developer --param POSTGRESQL_PASSWORD=developer --param POSTGRESQL_DATABASE=aadb`
+
+- Check out the Environment variables:
+        
+        POSTGRESQL_USER
+
+        POSTGRESQL_PASSWORD
+
+        POSTGRESQL_DATABASE
+
+- Run `oc get pods` and confirm that the DB is running
+
+- Open the OpenShift UI, select the DeploymentConfig ```aadb``` in the Topology, open the Pods section, select the only pod availabe and go to terminal, you are now connected to the inside of the running pod. We can use this to insert data into our database: 
+
+```bash
+psql -U developer -d aadb 
+
+CREATE TABLE cars (
+	car_id serial PRIMARY KEY,
+	brand VARCHAR ( 50 ) NOT NULL,
+	make VARCHAR ( 50 ) NOT NULL,
+	price VARCHAR ( 50 ) NOT NULL,
+	image VARCHAR ( 500 ) NOT NULL
+);
+
+INSERT INTO cars (brand, make, price, image) VALUES ('Audi', 'A5', '55.000', 'https://motoringmatters.ie/wp-content/uploads/2019/09/audi-a5_03.jpg');
+
+INSERT INTO cars (brand, make, price, image) VALUES ('BMW', '4 Series', '58.000', 'https://cdn1.buyacar.co.uk/sites/buyacar/files/bmw-4-series-1.jpg');
+
+INSERT INTO cars (brand, make, price, image) VALUES ('Mercedes', 'C Class', '65.000', 'https://carwow-uk-wp-0.imgix.net/mercedes-c-class-revealed-front-1.jpg?auto=format&cs=tinysrgb&fit=clip&ixlib=rb-1.1.0&q=60&w=750');
+
+INSERT INTO cars (brand, make, price, image) VALUES ('Porsche', '911', '150.000', 'https://cdn.motor1.com/images/mgl/nr6Jx/s1/porsche-911-carrera-992-2019.jpg');
+
+SELECT * FROM cars;
+```
+
+- **Deploy the Backend**
+
+- Open the Topolgy.
+
+- Right click -> Add Project -> From Git -> Insert Git Url from below ->  Proceed with defaults and deploy.
+
+- Git repository: `https://github.com/florianmoss/cars-backend`
+
+- Inspect the index.js and queries.js file.
+
+- No Dockerfile needed.
+
+- Select Topology and ```car-backend``` deployment and add the environment variables as seen below. The ``dbport`` and ``dbhost`` are environment variables specified by us, the ```dbpassword```, ```dbdatabase``` and ```dbuser``` are environment values that come from the DB and don't have to be visible to us deploying the backend.
+
+![](week3/images/cars.png)
+
+- Btw: The [queries.js](https://github.com/florianmoss/cars-backend/blob/master/queries.js) file specifies which environment variables are needed
+
+- In the Topology, on the top right of the nodeJS icon, select the URL icon as seen below
+
+![](week3/images/icon.png)
+
+- Add the `/cars` route to the end, this will query our cars database and display the cars we have entered.
+
+- Congratulations, you have just deployed a database and a microservice!
+
+
 ## Week 4 - Online Classroom - Kubernetes/OpenShift for Developers
-
-
 
 // to be added
 
