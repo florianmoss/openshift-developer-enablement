@@ -234,6 +234,8 @@ SELECT * FROM cars;
 
 - Congratulations, you have just deployed a database and a microservice!
 
+- **Important note spotted by Alan: You need to remove the HTTPS from the route in the URL bar. We don't have a certificate deployed, Chrome and Firefox automatically secure traffic though. Simply make http:// instead of https:// in the URL bar and it will work fine.**
+
 
 ## Week 4 - Online Classroom - Kubernetes/OpenShift for Developers
 
