@@ -162,7 +162,7 @@ spec:
 
 - Change the deployment config to 5 replicas (you can use the terminal or OpenShift GUI). Verify that 5 containers are running.
 
-3. **Createing a Database and Backend Service**
+4. **Creating a Database and Backend Service**
 - For the final exercise we will bring a few things together, Deployments, Environment Variables and ConfigMaps.
 
 Our target deployment looks like this:
