@@ -245,7 +245,7 @@ After going into quite a bot of detail last week &nbsp;🤯 &nbsp;, explaining K
 For simplicity reasons, the outer-loop conversation was excluded from the content.
 
 ------
-✅ &nbsp; Please find this weeks [presentation here](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week4/OpenShift4%20%20-%20Developers%20Edition.pdf)
+✅ &nbsp; Please find this weeks [presentation here](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week4/presentation/Inner%20Loop%20Options.pdf)
 
 🎁 &nbsp; You will also appreciate that there is no script this week. There was enough reading to do over the past 2-3 weeks. This week is all about `o-do`.
 
