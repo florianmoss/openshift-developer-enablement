@@ -239,13 +239,23 @@ SELECT * FROM cars;
 
 ## Week 4 - Online Classroom - Kubernetes/OpenShift for Developers
 
-After going into quite a bot of detail last week, explaining Kubernetes concepts and interacting with the `kubectl` CLI as well as the `oc` CLI, we are gonna bring it back up this week. The content for this week is easy to consume and really focused on the practical aspects of your `Inner-Loop Development`.
+After going into quite a bot of detail last week &nbsp;🤯 &nbsp;, explaining Kubernetes concepts and interacting with the `kubectl` CLI as well as the `oc` CLI, we are gonna bring it back up this week &nbsp;😇 &nbsp;. The content for this week is easy to consume and really focused on the practical aspects of your `Inner-Loop Development`.
 
+![Inner Loops](week4/images/il.png)
 For simplicity reasons, the outer-loop conversation was excluded from the content.
 
-Please find this weeks presentation [here](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week4/OpenShift4%20%20-%20Developers%20Edition.pdf)
+------
+✅ &nbsp; Please find this weeks [presentation here](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week4/OpenShift4%20%20-%20Developers%20Edition.pdf)
+
+🎁 &nbsp; You will also appreciate that there is no script this week. There was enough reading to do over the past 2-3 weeks. This week is all about `o-do`.
+
+------
 
 ## Week 4 - Self Guided Exercises
 
-// to be added
+This weeks [exercise can be found here.](https://florianmoss.github.io/inner-loop-guide/inner-loop/5.1/index.html)
 
+The hands-on part includes:
+- *[CodeReady Workspaces](https://developers.redhat.com/products/codeready-workspaces/overview)* (developing code directly on top of OpenShift &nbsp; 🤯 &nbsp; /remote dev environment)
+- *[odo](https://docs.openshift.com/container-platform/4.9/cli_reference/developer_cli_odo/understanding-odo.html)* (Git like approach to interacting with deployments)
+- *[S2I - Source to Image](https://github.com/openshift/source-to-image)* (A tool for building artifacts from source and injecting into container images)
