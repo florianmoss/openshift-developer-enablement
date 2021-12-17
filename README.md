@@ -239,7 +239,11 @@ SELECT * FROM cars;
 
 ## Week 4 - Online Classroom - Kubernetes/OpenShift for Developers
 
-// to be added
+After going into quite a bot of detail last week, explaining Kubernetes concepts and interacting with the `kubectl` CLI as well as the `oc` CLI, we are gonna bring it back up this week. The content for this week is easy to consume and really focused on the practical aspects of your `Inner-Loop Development`.
+
+For simplicity reasons, the outer-loop conversation was excluded from the content.
+
+Please find this weeks presentation [here](https://github.com/florianmoss/openshift-developer-enablement/blob/master/week4/OpenShift4%20%20-%20Developers%20Edition.pdf)
 
 ## Week 4 - Self Guided Exercises
 
